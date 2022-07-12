@@ -11,6 +11,10 @@ app.get("/", (req, res) => {
   res.send("Connect");
 });
 
+app.get("/send", (req, res) => {
+  res.send("NewConnect");
+});
+
 server.listen(PORT, () => {
   console.log("Server started on heroku " + PORT);
 });
