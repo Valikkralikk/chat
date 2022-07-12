@@ -10,5 +10,5 @@ app.get("/", (req, res) => {
 });
 
 server.listen(9999, () => {
-  console.log("Server started");
+  console.log("Server started on heroku");
 });
