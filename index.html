@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="connect" disabled>Connect</button>
+    <input id="name" type="text"><br>
+    <button id="send">Send</button>
+    <input id="message" type="text">
+    <div id="textarea"></div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket;
+    const buttonConnect = document.getElementById('connect');
+    const inputName = document.getElementById('name');
+    const inputMessage = document.getElementById('message');
+    const buttonSend = document.getElementById('send');
+    const textArea = document.getElementById('textarea');
+
+    inputName.addEventListener('input', (e) => {
+        let { value } = e.target;
+        buttonConnect.disabled = !value.trim();
+    })
+
+
+    buttonConnect.addEventListener('click', () => {
+        socket = io('', { query: { name: inputName.value } });
+        socket.on('new', (data) => {
+            console.log('data: ', data);
+            const p = document.createElement('p');
+            p.innerText = `${data.name}: ${data.msg}`;
+            textArea.append(p);
+        })
+    })
+
+    buttonSend.addEventListener('click', () => {
+        if (socket) {
+            socket.emit('message', inputMessage.value);
+        }
+        inputMessage.value = '';
+    })
+
+
+</script>
+
+</html>

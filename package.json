@@ -4,8 +4,7 @@
   "description": "start",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js 9999",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/Valikkralikk/chat#readme",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "express": "^4.18.1",
     "nodemon": "^2.0.19",
     "socket.io": "^4.5.1"
