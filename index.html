@@ -38,6 +38,8 @@
             p.innerText = `${data.name}: ${data.msg}`;
             textArea.append(p);
         })
+        buttonConnect.disabled = true;
+        inputName.disabled = true;
     })
 
     buttonSend.addEventListener('click', () => {
