@@ -29,6 +29,7 @@ io.on("connection", (socket) => {
   console.log(`${socket.handshake.query.name} connected`);
   socket.on("disconnect", () => {
     users = users.filter((user) => user.id != socket.id);
+    io.sockets.emit("new", { msg: `${socket.userName} leave`, name: "User " });
     console.log(`${socket.handshake.query.name}  disconnected`);
   });
   socket.on("message", (data) => {
