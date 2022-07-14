@@ -33,7 +33,6 @@
     buttonConnect.addEventListener('click', () => {
         socket = io('', { query: { name: inputName.value } });
         socket.on('new', (data) => {
-            console.log('data: ', data);
             const p = document.createElement('p');
             p.innerText = `${data.name}: ${data.msg}`;
             textArea.append(p);
