@@ -1,36 +1,47 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const socket = require("socket.io");
 const express = require("express");
 const app = express();
+const { Server } = require("socket.io");
+const server = http.createServer(app);
+const io = new Server(server);
+const CronJob = require("cron").CronJob;
+const moment = require("moment");
+
+const job = new CronJob("* * * * * *", function () {
+  console.log(moment().format("Do MMMM YYYY"), moment().format("h:mm:ss A"));
+});
+
+job.start();
 
 const PORT = process.env.PORT || 9999;
 
-const server = http.createServer(app);
-
-async function sendDataToFile(data) {
-  await fs.open(path(__dirname, "data.txt"), "w", (err) => {
-    if (err) throw err;
-    console.log("File created");
-  });
-
-  await fs.appendFile(path(__dirname, "data.txt"), toString(data), (err) => {
-    if (err) throw err;
-    console.log("Data has been added!");
-  });
-}
-
 app.get("/", (req, res) => {
-  res.send("Connect");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/send", (req, res) => {
-  console.log(req);
   sendDataToFile("data");
-  fs.readFile(path(__dirname, "data.txt"), (err, data) => {
+  fs.readFile(path.join(__dirname, "data.txt"), (err, data) => {
     if (err) throw err;
     res.send(data);
+  });
+});
+
+let users = [];
+
+io.on("connection", (socket) => {
+  socket.userName = socket.handshake.query.name;
+  users.push(socket);
+  console.log(`${socket.handshake.query.name} connected`);
+  socket.on("disconnect", () => {
+    users = users.filter((user) => user.id != socket.id);
+    io.sockets.emit("new", { msg: `${socket.userName} leave`, name: "User " });
+    console.log(`${socket.handshake.query.name}  disconnected`);
+  });
+  socket.on("message", (data) => {
+    io.sockets.emit("new", { msg: data, name: socket.userName });
   });
 });
 
