@@ -6,6 +6,14 @@ const app = express();
 const { Server } = require("socket.io");
 const server = http.createServer(app);
 const io = new Server(server);
+const CronJob = require("cron").CronJob;
+const moment = require("moment");
+
+const job = new CronJob("* * * * * *", function () {
+  console.log(moment().format("Do MMMM YYYY"), moment().format("h:mm:ss A"));
+});
+
+job.start();
 
 const PORT = process.env.PORT || 9999;
 
