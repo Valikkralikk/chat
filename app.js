@@ -24,6 +24,10 @@ class App {
     }
     useRoutes() {
         this.app.use('/users', users_1.userRouter);
+        this.app.get('/', (req, res) => {
+            console.log('Hi');
+            res.send('Hi');
+        });
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
