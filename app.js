@@ -21,6 +21,7 @@ class App {
         this.app = (0, express_1.default)();
         this.PORT = 8000;
         this.logger = logger;
+        console.log('App');
     }
     useRoutes() {
         this.app.use('/users', users_1.userRouter);
