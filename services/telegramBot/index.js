@@ -1,5 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 const { Amway } = require("../amway");
+const { Wildberries } = require("../wildberries");
 const token = '6304468525:AAGGEVpySqbrLjQVFDmQ8ABlXBnGyOmoUbs';
 
 class Bot {
@@ -26,13 +27,22 @@ class Bot {
             const chatId = msg.chat.id;
             if (Number(msg.text)) {
                 if (this.checkProductInCash(msg.text)) {
-                    await this.bot.sendMessage(chatId, this.checkProductInCash(msg.text).text);
+                    const productInCash = this.checkProductInCash(msg.text)
+                    const wildberriesProduct = await Wildberries.getProductsByQuery(productInCash.name);
+                    await this.bot.sendMessage(chatId, productInCash.text);
+                    await this.bot.sendMessage(
+                        chatId,
+                        `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
                 } else {
                     const url = await this.amway.getProductUrlById(msg.text);
                     const product = await this.amway.getProduct(url);
                     if (product) {
-                        this.setProductIntoCash({ text: product, id: Number(msg.text), date: new Date() });
-                        await this.bot.sendMessage(chatId, product)
+                        const wildberriesProduct = await Wildberries.getProductsByQuery(product.name);
+                        this.setProductIntoCash({ name: product.name, text: product.text, id: Number(msg.text), date: new Date() });
+                        await this.bot.sendMessage(chatId, product.text);
+                        await this.bot.sendMessage(
+                            chatId,
+                            `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
                     } else {
                         await this.bot.sendMessage(chatId, "Product not found");
                     }

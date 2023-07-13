@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { getAmwayProductByNumber } = require("../../helpers/getAmwayProductByNumber");
+const { getAmwayProductByNumber } = require("../../helpers/shopsUrls");
 const { Currency } = require("../currency");
 
 class Amway {
@@ -14,16 +14,17 @@ class Amway {
         if (!data.results.length) {
             return;
         }
-        const product = await data.results[0];
+        const product = data.results[0];
         const kzt = await this.currency.getSetCurrencyByName('KZT');
         const oneValue = kzt.value.toFixed(6);
 
-        return `
+        return {
+            name: product.name, text: `
 ${product.name}
 ${product.amwaySize ? `Объем: ${product.amwaySize}` : ''}
-Цена: ${(data.statsInfo[1].max * oneValue).toFixed(2)} BYN (${data.statsInfo[1].max} KZT)
+Цена: ${(product.price.value * oneValue).toFixed(2)} BYN (${product.price.value} KZT)
 Ретеил цена: ${(product.retailPrice.value * oneValue).toFixed(2)} BYN (${product.retailPrice.value} KZT)
-        `
+        `}
     }
 }
 
