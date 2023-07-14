@@ -25,6 +25,7 @@ class Bot {
 
         this.bot.on('message', async (msg) => {
             const chatId = msg.chat.id;
+            console.log(msg.text);
             if (Number(msg.text)) {
                 if (this.checkProductInCash(msg.text)) {
                     const productInCash = this.checkProductInCash(msg.text)
