@@ -23,12 +23,18 @@ class Amway {
         const USD = await this.currency.getSetCurrencyByName('USD');
         const oneKZT_Byn = KZT.value.toFixed(6);
         const oneUSD_Byn = USD.value.toFixed(6);
-        console.log(oneUSD_Byn);
 
+        
+        
         const kzt = product.price.value;
         const byn = (kzt * oneKZT_Byn).toFixed(2);
-        const usd = Math.ceil((byn / oneUSD_Byn));
-
+        const usd = (byn / oneUSD_Byn).toFixed(2);
+        
+        console.log(oneKZT_Byn);
+        console.log('byn',Amway.getPercent(Number(byn), 20));
+        console.log('usd',Amway.getPercent(Number(usd), 20));
+        console.log('kzt',Amway.getPercent(Number(kzt), 20));
+        
         return {
             name: product.name, text: `
 ${product.name}
