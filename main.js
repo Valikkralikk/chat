@@ -8,6 +8,6 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
     bot.initBot();
     setInterval(() => {
-        console.log('Dont sleep', + new Date().toString());
+        console.log('Dont sleep', + new Date());
     }, 300000)
 });
