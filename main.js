@@ -7,4 +7,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
     bot.initBot();
+    setInterval(() => {
+        console.log('Dont sleep', + new Date().toString());
+    }, 300000)
 });

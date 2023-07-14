@@ -30,9 +30,13 @@ class Bot {
                     const productInCash = this.checkProductInCash(msg.text)
                     const wildberriesProduct = await Wildberries.getProductsByQuery(productInCash.name);
                     await this.bot.sendMessage(chatId, productInCash.text);
-                    await this.bot.sendMessage(
-                        chatId,
-                        `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
+                    if (wildberriesProduct) {
+                        await this.bot.sendMessage(
+                            chatId,
+                            `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
+                    } else {
+                        await this.bot.sendMessage(chatId, `Wildberries: продукт с таким названием не найден`);
+                    }
                 } else {
                     const url = await this.amway.getProductUrlById(msg.text);
                     const product = await this.amway.getProduct(url);
@@ -40,9 +44,13 @@ class Bot {
                         const wildberriesProduct = await Wildberries.getProductsByQuery(product.name);
                         this.setProductIntoCash({ name: product.name, text: product.text, id: Number(msg.text), date: new Date() });
                         await this.bot.sendMessage(chatId, product.text);
-                        await this.bot.sendMessage(
-                            chatId,
-                            `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
+                        if (wildberriesProduct) {
+                            await this.bot.sendMessage(
+                                chatId,
+                                `Wildberries: ${wildberriesProduct.price}BYN. Ссылка: ${wildberriesProduct.link}`);
+                        } else {
+                            await this.bot.sendMessage(chatId, `Wildberries: продукт с таким названием не найден`);
+                        }
                     } else {
                         await this.bot.sendMessage(chatId, "Product not found");
                     }
