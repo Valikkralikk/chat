@@ -9,5 +9,5 @@ app.listen(port, () => {
     bot.initBot();
     setInterval(() => {
         console.log('Dont sleep', + new Date());
-    }, 1000)
+    }, 60000)
 });
