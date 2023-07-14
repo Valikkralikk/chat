@@ -1,7 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 const { Amway } = require("../amway");
 const { Wildberries } = require("../wildberries");
-const token = '6304468525:AAGGEVpySqbrLjQVFDmQ8ABlXBnGyOmoUbs';
 
 class Bot {
     cash = [];
@@ -65,4 +64,4 @@ class Bot {
     };
 }
 
-module.exports = { bot: new Bot(token) };
+module.exports = { bot: new Bot(process.env.API_TOKEN) };
