@@ -6,7 +6,7 @@ class Amway {
     currency = new Currency();
 
     static getPercent(value, percent) {
-        return value / 100 * percent;
+        return (Number(value) / 100 * percent).toFixed(2);
     }
 
     getProductUrlById(number) {
@@ -29,11 +29,6 @@ class Amway {
         const kzt = product.price.value;
         const byn = (kzt * oneKZT_Byn).toFixed(2);
         const usd = (byn / oneUSD_Byn).toFixed(2);
-        
-        console.log(oneKZT_Byn);
-        console.log('byn',Amway.getPercent(Number(byn), 20));
-        console.log('usd',Amway.getPercent(Number(usd), 20));
-        console.log('kzt',Amway.getPercent(Number(kzt), 20));
         
         return {
             name: product.name, text: `
