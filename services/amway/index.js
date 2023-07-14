@@ -5,6 +5,10 @@ const { Currency } = require("../currency");
 class Amway {
     currency = new Currency();
 
+    static getPercent(value, percent) {
+        return value / 100 * percent;
+    }
+
     getProductUrlById(number) {
         return getAmwayProductByNumber(number);
     }
@@ -15,15 +19,25 @@ class Amway {
             return;
         }
         const product = data.results[0];
-        const kzt = await this.currency.getSetCurrencyByName('KZT');
-        const oneValue = kzt.value.toFixed(6);
+        const KZT = await this.currency.getSetCurrencyByName('KZT');
+        const USD = await this.currency.getSetCurrencyByName('USD');
+        const oneKZT_Byn = KZT.value.toFixed(6);
+        const oneUSD_Byn = USD.value.toFixed(6);
+        console.log(oneUSD_Byn);
+
+        const kzt = product.price.value;
+        const byn = (kzt * oneKZT_Byn).toFixed(2);
+        const usd = Math.ceil((byn / oneUSD_Byn));
 
         return {
             name: product.name, text: `
 ${product.name}
 ${product.amwaySize ? `Объем: ${product.amwaySize}` : ''}
-Цена: ${(product.price.value * oneValue).toFixed(2)} BYN (${product.price.value} KZT)
-Ретеил цена: ${(product.retailPrice.value * oneValue).toFixed(2)} BYN (${product.retailPrice.value} KZT)
+Цена: 
+    ${usd} USD (${usd + Amway.getPercent(Number(usd), 20)} +20%)
+    ${byn} BYN (${byn + Amway.getPercent(Number(byn), 20)} +20%)
+    ${kzt} KZT (${kzt + Amway.getPercent(Number(kzt), 20)} +20%)
+Ретеил цена: ${(product.retailPrice.value * oneKZT_Byn).toFixed(2)} BYN (${product.retailPrice.value} KZT)
         `}
     }
 }
