@@ -6,7 +6,7 @@ class Amway {
     currency = new Currency();
 
     static getPercent(value, percent) {
-        return (Number(value) / 100 * percent).toFixed(2);
+        return (Number(value) / 100 * Number(percent)).toFixed(2);
     }
 
     getProductUrlById(number) {
@@ -26,9 +26,13 @@ class Amway {
 
         
         
-        const kzt = product.price.value;
+        const kzt = product.retailPrice.value;
         const byn = (kzt * oneKZT_Byn).toFixed(2);
         const usd = (byn / oneUSD_Byn).toFixed(2);
+
+        const kztR = product.price.value;
+        const bynR = (kzt * oneKZT_Byn).toFixed(2);
+        const usdR = (byn / oneUSD_Byn).toFixed(2);
         
         return {
             name: product.name, text: `
@@ -38,7 +42,10 @@ ${product.amwaySize ? `Объем: ${product.amwaySize}` : ''}
     ${usd} USD (${usd + Amway.getPercent(Number(usd), 20)} +20%)
     ${byn} BYN (${byn + Amway.getPercent(Number(byn), 20)} +20%)
     ${kzt} KZT (${kzt + Amway.getPercent(Number(kzt), 20)} +20%)
-Ретеил цена: ${(product.retailPrice.value * oneKZT_Byn).toFixed(2)} BYN (${product.retailPrice.value} KZT)
+Ретеил цена: 
+    ${usdR} USD (${usdR + Amway.getPercent(Number(usdR), 20)} +20%)
+    ${bynR} BYN (${bynR + Amway.getPercent(Number(bynR), 20)} +20%)
+    ${kztR} KZT (${kztR + Amway.getPercent(Number(kztR), 20)} +20%)
         `}
     }
 }
