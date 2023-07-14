@@ -26,11 +26,11 @@ class Amway {
 
 
 
-        const kzt = product.retailPrice.value;
+        const kzt = product.price.value;
         const byn = (kzt * oneKZT_Byn).toFixed(2);
         const usd = (byn / oneUSD_Byn).toFixed(2);
 
-        const kztR = product.price.value;
+        const kztR = product.retailPrice.value;
         const bynR = (kztR * oneKZT_Byn).toFixed(2);
         const usdR = (bynR / oneUSD_Byn).toFixed(2);
 
