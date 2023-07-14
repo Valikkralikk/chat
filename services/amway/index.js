@@ -24,28 +24,28 @@ class Amway {
         const oneKZT_Byn = KZT.value.toFixed(6);
         const oneUSD_Byn = USD.value.toFixed(6);
 
-        
-        
+
+
         const kzt = product.retailPrice.value;
         const byn = (kzt * oneKZT_Byn).toFixed(2);
         const usd = (byn / oneUSD_Byn).toFixed(2);
 
         const kztR = product.price.value;
-        const bynR = (kzt * oneKZT_Byn).toFixed(2);
-        const usdR = (byn / oneUSD_Byn).toFixed(2);
-        
+        const bynR = (kztR * oneKZT_Byn).toFixed(2);
+        const usdR = (bynR / oneUSD_Byn).toFixed(2);
+
         return {
             name: product.name, text: `
 ${product.name}
 ${product.amwaySize ? `Объем: ${product.amwaySize}` : ''}
 Цена: 
-    ${usd} USD (${usd + Amway.getPercent(Number(usd), 20)} +20%)
-    ${byn} BYN (${byn + Amway.getPercent(Number(byn), 20)} +20%)
-    ${kzt} KZT (${kzt + Amway.getPercent(Number(kzt), 20)} +20%)
+    ${usd} USD (${Number(usd) + Number(Amway.getPercent(usd, 20))} +20%)
+    ${byn} BYN (${Number(byn) + Number(Amway.getPercent(byn, 20))} +20%)
+    ${kzt} KZT (${Number(kzt) + Number(Amway.getPercent(kzt, 20))} +20%)
 Ретеил цена: 
-    ${usdR} USD (${usdR + Amway.getPercent(Number(usdR), 20)} +20%)
-    ${bynR} BYN (${bynR + Amway.getPercent(Number(bynR), 20)} +20%)
-    ${kztR} KZT (${kztR + Amway.getPercent(Number(kztR), 20)} +20%)
+    ${usdR} USD (${Number(usdR) + Number(Amway.getPercent(usdR, 20))} +20%)
+    ${bynR} BYN (${Number(bynR) + Number(Amway.getPercent(bynR, 20))} +20%)
+    ${kztR} KZT (${Number(kztR) + Number(Amway.getPercent(kztR, 20))} +20%)
         `}
     }
 }
